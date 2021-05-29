@@ -1,0 +1,245 @@
+{
+	"info": {
+		"_postman_id": "b7151a3d-3369-492f-964e-103128dc65bf",
+		"name": "biquant",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "NASA Mars Weather",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://api.nasa.gov/insight_weather/?api_key={{nasa_api_key}}&feedtype=json&ver=1.0",
+					"protocol": "https",
+					"host": [
+						"api",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"insight_weather",
+						""
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "{{nasa_api_key}}"
+						},
+						{
+							"key": "feedtype",
+							"value": "json"
+						},
+						{
+							"key": "ver",
+							"value": "1.0"
+						}
+					]
+				},
+				"description": "https://api.nasa.gov/"
+			},
+			"response": []
+		},
+		{
+			"name": "OpenWeather Weather",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "api.openweathermap.org/data/2.5/weather?q=Copenhagen&appid={{openweather_api_key}}",
+					"host": [
+						"api",
+						"openweathermap",
+						"org"
+					],
+					"path": [
+						"data",
+						"2.5",
+						"weather"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "Copenhagen"
+						},
+						{
+							"key": "appid",
+							"value": "{{openweather_api_key}}"
+						}
+					]
+				},
+				"description": "https://openweathermap.org/current"
+			},
+			"response": []
+		},
+		{
+			"name": "OpenWeather Air Pollution",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://api.openweathermap.org/data/2.5/air_pollution?lat=50&lon=50&appid={{openweather_api_key}}",
+					"protocol": "http",
+					"host": [
+						"api",
+						"openweathermap",
+						"org"
+					],
+					"path": [
+						"data",
+						"2.5",
+						"air_pollution"
+					],
+					"query": [
+						{
+							"key": "lat",
+							"value": "50"
+						},
+						{
+							"key": "lon",
+							"value": "50"
+						},
+						{
+							"key": "appid",
+							"value": "{{openweather_api_key}}"
+						}
+					]
+				},
+				"description": "https://openweathermap.org/api/air-pollution"
+			},
+			"response": []
+		},
+		{
+			"name": "PredictIt",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://www.predictit.org/api/marketdata/all",
+					"protocol": "https",
+					"host": [
+						"www",
+						"predictit",
+						"org"
+					],
+					"path": [
+						"api",
+						"marketdata",
+						"all"
+					]
+				},
+				"description": "https://predictit.freshdesk.com/support/solutions/articles/12000001878-does-predictit-make-market-data-available-via-an-api-"
+			},
+			"response": []
+		},
+		{
+			"name": "Chess.com Players in Country",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://api.chess.com/pub/country/DK/players",
+					"protocol": "https",
+					"host": [
+						"api",
+						"chess",
+						"com"
+					],
+					"path": [
+						"pub",
+						"country",
+						"DK",
+						"players"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				},
+				"description": "https://www.chess.com/news/view/published-data-api#pubapi-endpoint-country-players\n\nNote: complete lists of all players are not available to download. By requesting this list once per day, you will obtain a list of all new registrants and all people who are currently active on Chess.com and identify themselves as being in (or associated with) this country. People who switch their country designation will be included in the next generation of the list."
+			},
+			"response": []
+		},
+		{
+			"name": "Metaculus",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://www.metaculus.com/api2/questions/",
+					"protocol": "https",
+					"host": [
+						"www",
+						"metaculus",
+						"com"
+					],
+					"path": [
+						"api2",
+						"questions",
+						""
+					]
+				},
+				"description": "https://gist.github.com/AABoyles/7472f3b4dc0391c733d050e5baab3faa\n\nhttps://ergo.ought.org/en/latest/metaculus.html"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "78871290-2892-4bd7-9a4f-b77f54875c1d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "5bf796a8-f5a9-42e9-9ad6-fd31e12d39af",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "05792d3d-b2b0-46c8-b103-5f18d64e207a",
+			"key": "nasa_api_key",
+			"value": "nzh8edKbqhAXDL0Qb0ynQeiYcwWX9xYSoECw6jhO",
+			"type": "string"
+		}
+	]
+}
