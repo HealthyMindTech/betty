@@ -1,7 +1,11 @@
 import 'dart:html';
-import 'package:intl/intl.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import 'models.dart';
 
 void main() async {
@@ -29,6 +33,13 @@ const MaterialColor materialBlack = MaterialColor(
 
 var friendlyDateFormat = DateFormat('dd-MM-yyyy, kk:mm');
 
+var exampleModelUser = ModelUser(
+  id: "1",
+  displayName: "Paula",
+  createdAt: DateTime.now(),
+  balance: 100
+);
+
 class BettingBee extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -53,6 +64,88 @@ class BettingBeeLayout extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text(title),
+          actions:
+        <Widget>[
+          TextButton(
+          child: Row(
+            children: <Widget>[
+              Text(exampleModelUser.balance.toString(), style: TextStyle(color: Colors.yellow.shade400)),
+              SizedBox(width: 3),
+              Icon(Icons.monetization_on, color: Colors.yellow.shade400),
+            ]),
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Text("Balance"),
+                          Icon(Icons.monetization_on, size: 25),
+                          Icon(Icons.monetization_on, size: 25),
+                          Icon(Icons.monetization_on, size: 25),
+                        ]
+                    ),
+                    content:
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Text(exampleModelUser.balance.toString(), style: TextStyle(fontSize: 20.0,)),
+                  ]
+                    ),
+                    actions: <Widget>[
+                      // TextButton(
+                      //   onPressed: () => Navigator.pop(context, 'OK'),
+                      //   child: const Text('Deposit funds'),
+                      // ),
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, 'OK'),
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  );
+                });
+          }),
+          Padding(
+          padding: EdgeInsets.only(right: 30),
+          child: TextButton(
+                  child: Row(
+                  children: <Widget>[
+                  Icon(Icons.person, color: Colors.white),]),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Icon(Icons.person, size: 25),
+                                  Text("Your profile"),
+                                ]
+                            ),
+                            content:
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(exampleModelUser.displayName!, style: TextStyle(fontSize: 20.0,)),
+                                ]
+                            ),
+                            actions: <Widget>[
+                              // TextButton(
+                              //   onPressed: () => Navigator.pop(context, 'OK'),
+                              //   child: const Text('Deposit funds'),
+                              // ),
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, 'OK'),
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          );
+                        });
+                  },))
+        ]
         ),
         body: Stack(
             children : <Widget> [
@@ -83,16 +176,20 @@ class BettingColumn extends StatelessWidget {
           child: BetList(
             bets: [
               Bet(
-                  betText: "BitCoin will go above \$50000",
-                  betA: "Yes, above \$50000",
-                  betB: "No, not above \$50000",
-                  releaseTime:  DateTime.now().add(Duration(minutes: 10))
+                  betText: "Will Benkyy win the Evergreen_Warrior's 'Queen's Gambit' Tournament?",
+                  betA: "Yes",
+                  betB: "No",
+                  releaseTime:  DateTime.now().add(Duration(minutes: 10)),
+                  tournamentId: "1",
+                  tournamentUrl: "https://www.chess.com/tournament/evergreen-warriors-queens-gambit-tournament-1",
               ),
               Bet(
-                  betText: "Ethereum will go above \$50000",
-                  betA: "Yes, above \$50000",
-                  betB: "No, not above \$50000",
-                  releaseTime:  DateTime.now().add(Duration(minutes: 10))
+                  betText: "Will Sudashi win the Chess 960 Tournament?",
+                  betA: "Yes",
+                  betB: "No",
+                  releaseTime:  DateTime.now().add(Duration(minutes: 10)),
+                  tournamentId: "1",
+                  tournamentUrl: "https://www.chess.com/tournament/chess-960-tournament-49",
               )
             ]
 
@@ -176,6 +273,15 @@ class BetList extends StatelessWidget {
                     padding: EdgeInsets.only(top: 10),
                     child: Text("Ends: " + friendlyDateFormat.format(bet.releaseTime)))
               ]),
+              Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                GestureDetector(
+                child: Text("View Details",
+                  style: TextStyle(color: Colors.blue)),
+                onTap: () {
+                    launch(bet.tournamentUrl);
+                  }
+                )
+              ]),
             ])));
   }
 
@@ -194,27 +300,33 @@ class ActionColumn extends StatelessWidget {
           child: PlacedBetList(
               bets: [
                 UserBet(
-                    betText: "Will the Bongcloud be played during the FTX Crypto Cup?",
-                    betA: "Yes",
-                    betB: "No",
-                    releaseTime:  DateTime.now().add(Duration(minutes:10)),
-                    betUser: "Yes",
-                    betOutcome: "",
-                    placedTime: DateTime.now().add(Duration(minutes:-5))
-                ),
-                UserBet(
                     betText: "Will Magnus Carlsen win the FTX Crypto Cup?",
                     betA: "Yes",
                     betB: "No",
+                    tournamentId: "1",
+                    tournamentUrl: "",
+                    releaseTime:  DateTime.now().add(Duration(minutes:10)),
+                    betUser: "Yes",
+                    betOutcome: "",
+                    placedTime: DateTime.now().add(Duration(minutes:-5)),
+                ),
+                UserBet(
+                    betText: "Will Ian Nepomniachtchi win their Semifinals Series of the FTX Crypto Cup?",
+                    betA: "Yes",
+                    betB: "No",
+                    tournamentId: "1",
+                    tournamentUrl: "",
                     releaseTime:  DateTime.now().add(Duration(minutes:-5)),
                     betUser: "Yes",
                     betOutcome: "Yes",
                     placedTime: DateTime.now().add(Duration(minutes:-10))
                 ),
                 UserBet(
-                    betText: "Will Ian Nepomniachtchi or Wesley So win their Semifinals Series of the FTX Crypto Cup?",
+                    betText: "Will Wesley So win their Semifinals Series of the FTX Crypto Cup?",
                     betA: "Yes",
                     betB: "No",
+                    tournamentId: "1",
+                    tournamentUrl: "",
                     releaseTime:  DateTime.now().add(Duration(minutes:-5)),
                     betUser: "No",
                     betOutcome: "Yes",
@@ -323,6 +435,15 @@ class PlacedBetList extends StatelessWidget {
                         "Ends: " + friendlyDateFormat.format(bet.releaseTime) :
                             "Ended: " + friendlyDateFormat.format(bet.releaseTime)
                             ))
+              ]),
+              Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                GestureDetector(
+                    child: Text("View Details",
+                        style: TextStyle(color: Colors.blue)),
+                    onTap: () {
+                      launch(bet.tournamentUrl);
+                    }
+                )
               ]),
             ])));
   }
