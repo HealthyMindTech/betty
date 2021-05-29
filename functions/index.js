@@ -6,11 +6,13 @@ const cors = require('cors');
 const admin = require('firebase-admin');
 
 admin.initializeApp();
+admin.firestore().settings({ ignoreUndefinedProperties: true });
+
 const app = express();
 
 // Automatically allow cross-origin requests
 app.use(cors({ origin: true }));
-app.get('/', async (req, res) => res.send(chessSync.registerNewTournaments()));
+app.get('/', async (req, res) => res.send(chessSync.scanTournaments()));
 
 // Expose Express API as a single Cloud Function:
 exports.bets = functions.https.onRequest(app);

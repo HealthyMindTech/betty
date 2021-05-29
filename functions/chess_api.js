@@ -49,10 +49,34 @@ async function* getNewTournaments() {
   }
 }
 
+function twoDigits(num) {
+  let prefix = "";
+  if (num < 0) {
+    prefix = "-";
+    num = -num;
+  }
+  
+  if (num < 10) {
+    return prefix + "0" + num;
+  } else {
+    return prefix + num;
+  }
+}
+
+function currentTimezoneOffset() {
+  let offset = -2 * 60 - 7 * 60;
+  const prefix = offset < 0 ? "-" : "+";
+  if (offset < 0) {
+    offset = -offset;
+  }
+  return prefix + twoDigits(Math.floor(offset / 60)) + ":" + twoDigits(offset % 60);
+}
+
 async function* getUpcomingTournaments() {
   const resp = await axios.get("https://www.chess.com/tournament/upcoming/arena?&page=1");
   const $ = cheerio.load(resp.data);
   const rows = $("tr")
+  
   for (var i = 0; i < rows.length; i++) {
     const row = rows[i];
     let tdCount = 0;
@@ -70,7 +94,7 @@ async function* getUpcomingTournaments() {
         console.log(name);
       } else if (tdCount === 5) {
         const dateText = $(child).text().trim().replaceAll(/\s+/g, ' ');
-        date = new Date(new Date(dateText).toISOString().replace(/Z$/, "-08:00"));
+        date = new Date(new Date(dateText).toISOString().replace(/Z$/, "-07:00"));
         console.log(date);
       }
       tdCount++;
@@ -94,26 +118,3 @@ exports.getTournamentId = getTournamentId;
 exports.getUpcomingTournaments = getUpcomingTournaments;
 exports.lookupTournament = lookupTournament;
 exports.lookupTournamentRound = lookupTournamentRound;
-
-//lookupTournament('10-bullet-1186229').then(console.log)
-//lookupTournamentRounds('10-bullet-1186229', 1).then(console.log)
-//printTournament("10-bullet-1186180");
-
-
-
-/* 
- * async function getTournaments() {
- *   for await(const value of getUpcomingTournaments()) {
- *     console.log(value);
- *     const tournamentId = getTournamentId(value);
- *     const res = await lookupTournament(tournamentId);
- *     console.log(res);
- *     try {
- *       const t = await lookupTournamentRounds(value, 1);
- *       console.log(t);
- *       return;
- *     } catch (e) {}
- *     
- *   }
- * }
- *  */
