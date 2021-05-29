@@ -1,7 +1,6 @@
-admin = require('firebase-admin');
-chessApi = require("./chess_api");
-
-TOURNAMENT_COLLECTION = "tournament";
+const admin = require('firebase-admin');
+const chessApi = require("./chess_api");
+const { TOURNAMENT_COLLECTION } = require('./collections');
 
 async function createOrUpdateTournament(tournamentId, idNumber) {
   firestore = admin.firestore();
