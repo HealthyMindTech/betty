@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-
+import 'package:firebase_core/firebase_core.dart';
 import 'models.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  FirebaseApp defaultApp = await Firebase.initializeApp();
   runApp(BettingBee());
 }
 
