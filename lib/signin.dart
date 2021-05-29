@@ -54,7 +54,7 @@ class LoginModal extends StatelessWidget {
                       innerPadding: EdgeInsets.all(4),
                       text: 'Sign in with Google',
                       fontSize: 18,
-                      width: double.infinity,
+                      width: 400,
                       onPressed: () async {
                         await _signInWithGoogle(context);
                       })),
@@ -72,7 +72,7 @@ class LoginModal extends StatelessWidget {
                   innerPadding: EdgeInsets.all(18),
                   text: 'Sign in with email',
                   fontSize: 18,
-                  width: double.infinity,
+                  width: 400,
                   onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) =>
                           SigninWithPasswordScreen(onLogin: onLogin))),
@@ -189,7 +189,12 @@ class SigninWithPasswordScreen extends StatelessWidget {
         body: Builder(builder: (BuildContext context) {
           return ListView(
               padding: const EdgeInsets.all(8),
-              children: <Widget>[EmailSignin(onLogin: onLogin)]);
+              children: <Widget>[
+                Align(
+                    alignment: Alignment.center, //or choose another Alignment
+                    child: SizedBox(
+                    width: 400,
+                child: EmailSignin(onLogin: onLogin)))]);
         }));
   }
 }
@@ -260,6 +265,9 @@ class _EmailSigninState extends State<EmailSignin> {
                       }
                     },
                     label: Text('Sign in'),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.orange,
+                    ),
                   ),
                 ),
               ],
@@ -347,7 +355,11 @@ class _ForgotPasswordState extends State<ForgotPasswordScreen> {
                 alignment: Alignment.center,
                 padding: const EdgeInsets.only(bottom: 30),
                 child: Text("No worries. Let's get you back in!")),
-            Form(
+        Align(
+        alignment: Alignment.center, //or choose another Alignment
+        child: SizedBox(
+        width: 400,
+        child: Form(
                 key: _formKey,
                 child: Card(
                     child: Padding(
@@ -378,10 +390,13 @@ class _ForgotPasswordState extends State<ForgotPasswordScreen> {
                                 icon: Icon(Icons.person_add),
                                 onPressed: _passwordReset,
                                 label: Text('Send Email'),
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.orange,
+                                  ),
                               ),
                             )
                           ],
-                        )))),
+                        )))))),
           ],
         );
       }),
@@ -433,7 +448,12 @@ class RegistrationScreen extends StatelessWidget {
         return ListView(
           padding: const EdgeInsets.all(8),
           children: <Widget>[
-            _EmailPasswordForm(onLogin: onLogin),
+            Align(
+                alignment: Alignment.center, //or choose another Alignment
+                child: SizedBox(
+                width: 400,
+                child:
+                _EmailPasswordForm(onLogin: onLogin)))
           ],
         );
       }),
@@ -499,6 +519,9 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                       }
                     },
                     label: Text('Register'),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.orange,
+                    ),
                   ),
                 ),
               ],
