@@ -69,6 +69,7 @@ async function updateUnfinishedTournaments(ignoredIds) {
   const docs = await firestore.collection(TOURNAMENT_COLLECTION).where("status", "in", [
     "scheduled", "registration", "in_progress"
   ]).get();
+  
   const ignoredDocs = ignoredIds ? new Set(ignoredIds) : new Set();
   for (var doc of docs.docs) {
     if (ignoredDocs.has(doc.id)) {
