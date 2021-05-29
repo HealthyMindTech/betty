@@ -93,7 +93,7 @@ async function* getUpcomingTournaments() {
         name = $(child).text().trim();
         console.log(name);
       } else if (tdCount === 5) {
-        const dateText = $(child).text().trim().replaceAll(/\s+/g, ' ');
+        const dateText = $(child).text().trim().replace(/\s+/g, ' ');
         date = new Date(new Date(dateText).toISOString().replace(/Z$/, "-07:00"));
         console.log(date);
       }
@@ -110,7 +110,7 @@ async function* getUpcomingTournaments() {
 }
 
 function getTournamentId(tournamentObj) {
-  const res = `${tournamentObj.name.replaceAll(/\s/g, "-").replaceAll(/[^\w\d_-]/g, "")}-${tournamentObj.id}`;
+  const res = `${tournamentObj.name.replace(/\s/g, "-").replace(/[^\w\d_-]/g, "")}-${tournamentObj.id}`;
   return res.toLowerCase();
 }
 
