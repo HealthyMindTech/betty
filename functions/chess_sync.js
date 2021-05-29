@@ -5,6 +5,7 @@ const { TOURNAMENT_COLLECTION } = require('./collections');
 async function createOrUpdateTournament(tournamentId, idNumber) {
   firestore = admin.firestore();
   let tournamentDetails, tournamentPlayers = null;
+  console.log(`Updating ${tournamentId}`);
   try {
     tournamentDetails = await chessApi.lookupTournament(tournamentId);
   } catch (e) {

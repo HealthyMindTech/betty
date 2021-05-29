@@ -88,14 +88,11 @@ async function* getUpcomingTournaments() {
       }
       if (tdCount === 0) {
         id = $(child).text().trim();
-        console.log(id);
       } else if (tdCount === 1) {
         name = $(child).text().trim();
-        console.log(name);
       } else if (tdCount === 5) {
         const dateText = $(child).text().trim().replace(/\s+/g, ' ');
         date = new Date(new Date(dateText).toISOString().replace(/Z$/, "-07:00"));
-        console.log(date);
       }
       tdCount++;
     }
