@@ -13,11 +13,11 @@ class BettingBee extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Betting Bee',
+      title: 'Betty',
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: BettingBeeLayout(title: 'Betting Bee'),
+      home: BettingBeeLayout(title: 'Betty'),
     );
   }
 }
@@ -33,10 +33,18 @@ class BettingBeeLayout extends StatelessWidget {
         appBar: AppBar(
           title: Text(title),
         ),
-        body: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Expanded(child: BettingColumn()),
-          Expanded(child: ActionColumn())
-        ]));
+        body: Stack(
+            children : <Widget> [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Expanded(child: BettingColumn()),
+                Expanded(child: ActionColumn())
+              ]),
+              Positioned(
+                bottom : 20,
+                left: 20,
+                child: Text("2021 \u00a9 Betty | Terms of Service | Privacy Policy | About")
+              )]
+    ));
   }
 }
 
@@ -115,13 +123,17 @@ class BetWidget extends StatelessWidget {
         ]));
   }
 
-
-
 }
 
 class ActionColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column();
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Container(
+        padding: const EdgeInsets.all(20.0),
+        child: Text("Placed bets",
+            style: Theme.of(context).textTheme.headline6),
+      ),
+    ]);
   }
 }

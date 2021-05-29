@@ -1,6 +1,6 @@
-# bettingbee
+# Betty
 
-Betting bee
+Betty
 
 ## Getting Started with Flutter
 
@@ -26,6 +26,7 @@ samples, guidance on mobile development, and a full API reference.
 * Active users/players on different platforms
   * Challenge example: "The number of active players at chess.com will decrease between 2021.05.01. 17:00 and 2021.05.01. 17:05" - the active player count at the second timestamp will be less than it is at the first timestamp. - https://www.chess.com/news/view/published-data-api
   * Players per country on chess.com: https://www.chess.com/news/view/published-data-api#pubapi-endpoint-country-players
+  * https://www.npmjs.com/package/chess-web-api
 * Weather (on earth, on mars)
   * on Earth: https://openweathermap.org/current
   * on Mars: https://api.nasa.gov/
@@ -70,6 +71,9 @@ samples, guidance on mobile development, and a full API reference.
 
 * Predictit:
     * https://www.predictit.org/
+    
+* PolyMarket:
+    * https://polymarket.com/
 
 ### Public data streams
 
