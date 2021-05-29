@@ -32,7 +32,9 @@ async function updateTournaments() {
   return null;
 }
 
-exports.makeBet = functions.https.onCall((data, context) => {
+exports.makeBet = functions.runWith({
+  timeoutSeconds: 300
+}).https.onCall((data, context) => {
   const tournamentId = data.tournamentId;
   const player = data.player;
   const userId = context.auth.uid;
@@ -45,7 +47,9 @@ exports.makeBet = functions.https.onCall((data, context) => {
   return bets.makeBet(tournamentId, player, userId, value);
 });
 
-exports.app = functions.https.onRequest(app);
+exports.app = functions.runWith({
+  timeoutSeconds: 300
+}).https.onRequest(app);
 exports.updateTournaments = functions.pubsub.schedule("every 1 minutes").onRun(updateTournaments);
 
 

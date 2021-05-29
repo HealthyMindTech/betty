@@ -19,11 +19,14 @@ async function createOrUpdateTournament(tournamentId, idNumber) {
     playerScores = tournamentPlayers.players.map(player => player.points);
   } catch (e) {
     console.log(e);
+  }
+
+  if (players === null || players.length === 0) {
     players = tournamentDetails.players.map(player => player.username);
     playerScores = players.map(_ => 0);
   }
+  console.log(players);
 
-  
   const doc = firestore.collection(TOURNAMENT_COLLECTION).doc(tournamentId);
   
   const startTime = tournamentDetails.start_time;
