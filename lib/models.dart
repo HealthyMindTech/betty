@@ -79,3 +79,23 @@ class UserBet {
         required this.betOutcome,
         required this.placedTime});
 }
+
+class ModelUser {
+  String? id;
+  String? profileImageUrl;
+  String? email;
+  String? displayName;
+  DateTime? createdAt;
+  List<String>? betsIds;
+  num? balance;
+
+  ModelUser(
+      {this.id,
+        this.profileImageUrl,
+        this.email,
+        this.displayName,
+        this.createdAt,
+        this.betsIds,
+        this.balance,
+      });
+}

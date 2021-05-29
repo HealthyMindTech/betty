@@ -33,6 +33,13 @@ const MaterialColor materialBlack = MaterialColor(
 
 var friendlyDateFormat = DateFormat('dd-MM-yyyy, kk:mm');
 
+var exampleModelUser = ModelUser(
+  id: "1",
+  displayName: "Paula",
+  createdAt: DateTime.now(),
+  balance: 100
+);
+
 class BettingBee extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -57,6 +64,88 @@ class BettingBeeLayout extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text(title),
+          actions:
+        <Widget>[
+          TextButton(
+          child: Row(
+            children: <Widget>[
+              Text(exampleModelUser.balance.toString(), style: TextStyle(color: Colors.yellow.shade400)),
+              SizedBox(width: 3),
+              Icon(Icons.monetization_on, color: Colors.yellow.shade400),
+            ]),
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Text("Balance"),
+                          Icon(Icons.monetization_on, size: 25),
+                          Icon(Icons.monetization_on, size: 25),
+                          Icon(Icons.monetization_on, size: 25),
+                        ]
+                    ),
+                    content:
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Text(exampleModelUser.balance.toString(), style: TextStyle(fontSize: 20.0,)),
+                  ]
+                    ),
+                    actions: <Widget>[
+                      // TextButton(
+                      //   onPressed: () => Navigator.pop(context, 'OK'),
+                      //   child: const Text('Deposit funds'),
+                      // ),
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, 'OK'),
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  );
+                });
+          }),
+          Padding(
+          padding: EdgeInsets.only(right: 30),
+          child: TextButton(
+                  child: Row(
+                  children: <Widget>[
+                  Icon(Icons.person, color: Colors.white),]),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Icon(Icons.person, size: 25),
+                                  Text("Your profile"),
+                                ]
+                            ),
+                            content:
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(exampleModelUser.displayName!, style: TextStyle(fontSize: 20.0,)),
+                                ]
+                            ),
+                            actions: <Widget>[
+                              // TextButton(
+                              //   onPressed: () => Navigator.pop(context, 'OK'),
+                              //   child: const Text('Deposit funds'),
+                              // ),
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, 'OK'),
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          );
+                        });
+                  },))
+        ]
         ),
         body: Stack(
             children : <Widget> [
