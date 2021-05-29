@@ -1,7 +1,11 @@
 import 'dart:html';
-import 'package:intl/intl.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import 'models.dart';
 
 void main() async {
@@ -83,16 +87,20 @@ class BettingColumn extends StatelessWidget {
           child: BetList(
             bets: [
               Bet(
-                  betText: "BitCoin will go above \$50000",
-                  betA: "Yes, above \$50000",
-                  betB: "No, not above \$50000",
-                  releaseTime:  DateTime.now().add(Duration(minutes: 10))
+                  betText: "Will Benkyy win the Evergreen_Warrior's 'Queen's Gambit' Tournament?",
+                  betA: "Yes",
+                  betB: "No",
+                  releaseTime:  DateTime.now().add(Duration(minutes: 10)),
+                  tournamentId: "1",
+                  tournamentUrl: "https://www.chess.com/tournament/evergreen-warriors-queens-gambit-tournament-1",
               ),
               Bet(
-                  betText: "Ethereum will go above \$50000",
-                  betA: "Yes, above \$50000",
-                  betB: "No, not above \$50000",
-                  releaseTime:  DateTime.now().add(Duration(minutes: 10))
+                  betText: "Will Sudashi win the Chess 960 Tournament?",
+                  betA: "Yes",
+                  betB: "No",
+                  releaseTime:  DateTime.now().add(Duration(minutes: 10)),
+                  tournamentId: "1",
+                  tournamentUrl: "https://www.chess.com/tournament/chess-960-tournament-49",
               )
             ]
 
@@ -176,6 +184,15 @@ class BetList extends StatelessWidget {
                     padding: EdgeInsets.only(top: 10),
                     child: Text("Ends: " + friendlyDateFormat.format(bet.releaseTime)))
               ]),
+              Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                GestureDetector(
+                child: Text("View Details",
+                  style: TextStyle(color: Colors.blue)),
+                onTap: () {
+                    launch(bet.tournamentUrl);
+                  }
+                )
+              ]),
             ])));
   }
 
@@ -194,27 +211,33 @@ class ActionColumn extends StatelessWidget {
           child: PlacedBetList(
               bets: [
                 UserBet(
-                    betText: "Will the Bongcloud be played during the FTX Crypto Cup?",
-                    betA: "Yes",
-                    betB: "No",
-                    releaseTime:  DateTime.now().add(Duration(minutes:10)),
-                    betUser: "Yes",
-                    betOutcome: "",
-                    placedTime: DateTime.now().add(Duration(minutes:-5))
-                ),
-                UserBet(
                     betText: "Will Magnus Carlsen win the FTX Crypto Cup?",
                     betA: "Yes",
                     betB: "No",
+                    tournamentId: "1",
+                    tournamentUrl: "",
+                    releaseTime:  DateTime.now().add(Duration(minutes:10)),
+                    betUser: "Yes",
+                    betOutcome: "",
+                    placedTime: DateTime.now().add(Duration(minutes:-5)),
+                ),
+                UserBet(
+                    betText: "Will Ian Nepomniachtchi win their Semifinals Series of the FTX Crypto Cup?",
+                    betA: "Yes",
+                    betB: "No",
+                    tournamentId: "1",
+                    tournamentUrl: "",
                     releaseTime:  DateTime.now().add(Duration(minutes:-5)),
                     betUser: "Yes",
                     betOutcome: "Yes",
                     placedTime: DateTime.now().add(Duration(minutes:-10))
                 ),
                 UserBet(
-                    betText: "Will Ian Nepomniachtchi or Wesley So win their Semifinals Series of the FTX Crypto Cup?",
+                    betText: "Will Wesley So win their Semifinals Series of the FTX Crypto Cup?",
                     betA: "Yes",
                     betB: "No",
+                    tournamentId: "1",
+                    tournamentUrl: "",
                     releaseTime:  DateTime.now().add(Duration(minutes:-5)),
                     betUser: "No",
                     betOutcome: "Yes",
@@ -323,6 +346,15 @@ class PlacedBetList extends StatelessWidget {
                         "Ends: " + friendlyDateFormat.format(bet.releaseTime) :
                             "Ended: " + friendlyDateFormat.format(bet.releaseTime)
                             ))
+              ]),
+              Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                GestureDetector(
+                    child: Text("View Details",
+                        style: TextStyle(color: Colors.blue)),
+                    onTap: () {
+                      launch(bet.tournamentUrl);
+                    }
+                )
               ]),
             ])));
   }
