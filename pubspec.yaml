@@ -33,6 +33,10 @@ dependencies:
   firebase_auth: ^1.2.0
   url_launcher: ^6.0.4
   cloud_functions: "^1.1.0"
+  provider: ^5.0.0
+  flutter_signin_button: ^2.0.0
+  google_sign_in: ^5.0.1
+  crypto: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -53,6 +57,9 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/betty_logo.png
+    - assets/betty_logo_name.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

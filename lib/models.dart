@@ -130,4 +130,24 @@ class ModelUser {
         this.betsIds,
         this.balance,
       });
+
+    Map<String, dynamic> toMap() {
+      return {
+        "id": id,
+        "profileImageUrl": profileImageUrl,
+        "email": email,
+        "displayName": displayName,
+        "createdAt": createdAt ?? DateTime.now(),
+        "balance": balance,
+      };
+    }
+
+    ModelUser.fromMap(Map<String, dynamic> map) {
+      id = map["id"];
+      profileImageUrl = map["profileImageUrl"];
+      email = map["email"];
+      displayName = map["displayName"];
+      createdAt = (map["createdAt"] as Timestamp?)?.toDate();
+      balance = map["balance"];
+  }
 }
