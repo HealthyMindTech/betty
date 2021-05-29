@@ -18,23 +18,33 @@ samples, guidance on mobile development, and a full API reference.
 
 ## What to bet on
 
-* Challenge example: "The USD-HUF exchange rate will increase between 2021.05.01. 17:00 and 2021.05.01. 18:00" - the rate observation at the second timestamp will be greater than it is at the first timestamp.
-* Challenge example: "The number of active players at chess.com will decrease between 2021.05.01. 17:00 and 2021.05.01. 17:05" - the active player count at the second timestamp will be less than it is at the first timestamp. - https://www.chess.com/news/view/published-data-api
-* Active users/players
+* Finance: 
+  * https://FXMarketAPI.com
+  * https://marketstack.com/documentation
+  * https://api-portal.etoro.com/
+  * Challenge example: "The USD-HUF exchange rate will increase between 2021.05.01. 17:00 and 2021.05.01. 18:00" - the rate observation at the second timestamp will be greater than it is at the first timestamp.
+* Active users/players on different platforms
+  * Challenge example: "The number of active players at chess.com will decrease between 2021.05.01. 17:00 and 2021.05.01. 17:05" - the active player count at the second timestamp will be less than it is at the first timestamp. - https://www.chess.com/news/view/published-data-api
+  * Players per country on chess.com: https://www.chess.com/news/view/published-data-api#pubapi-endpoint-country-players
 * Weather (on earth, on mars)
+  * on Earth: https://openweathermap.org/current
+  * on Mars: https://api.nasa.gov/
 * Air quality
+  * https://openweathermap.org/api/air-pollution
+* Covid / Pandemic
+  * https://www.coronatracker.com/ (API: https://documenter.getpostman.com/view/11073859/Szmcbeho?version=latest)
 * We could also allow gambling on other people success/failure. So say: I believe this player will lose his next five bets.
 * Football
 * Politics
 * World events
-* Finance: https://api-portal.etoro.com/
 * Entertainment
-* Covid / Pandemic
 * Betting on vendor meetings bullshit bingo
 * Betting on your own health
 * Betting on house prices
-* News: in the sense, will there come news about this figure in the next five minutes.
-* Transport: https://api.tfl.gov.uk/, https://developers.google.com/transit/gtfs-realtime
+* Betting on news: in the sense, will there come news about this figure in the next five minutes.
+* Transport
+  * https://api.tfl.gov.uk/
+  * https://developers.google.com/transit/gtfs-realtime
 * Wikipedia edits
 
 ### Platforms

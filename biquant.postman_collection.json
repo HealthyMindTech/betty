@@ -210,6 +210,404 @@
 				"description": "https://gist.github.com/AABoyles/7472f3b4dc0391c733d050e5baab3faa\n\nhttps://ergo.ought.org/en/latest/metaculus.html"
 			},
 			"response": []
+		},
+		{
+			"name": "MarketStack End of Day",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://api.marketstack.com/v1/eod?access_key={{marketstack_api_key}}&symbols=AAPL",
+					"protocol": "http",
+					"host": [
+						"api",
+						"marketstack",
+						"com"
+					],
+					"path": [
+						"v1",
+						"eod"
+					],
+					"query": [
+						{
+							"key": "access_key",
+							"value": "{{marketstack_api_key}}"
+						},
+						{
+							"key": "symbols",
+							"value": "AAPL"
+						}
+					]
+				},
+				"description": "https://marketstack.com/documentation"
+			},
+			"response": []
+		},
+		{
+			"name": "FXMarket Live",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://fxmarketapi.com/apilive?api_key={{fxmarket_api_key}}",
+					"protocol": "https",
+					"host": [
+						"fxmarketapi",
+						"com"
+					],
+					"path": [
+						"apilive"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "{{fxmarket_api_key}}"
+						},
+						{
+							"key": "currency",
+							"value": "EURUSD,GBPUSD,BTCUSD",
+							"disabled": true
+						}
+					]
+				},
+				"description": "https://fxmarketapi.com/documentation"
+			},
+			"response": []
+		},
+		{
+			"name": "FXMarket Timeseries datespan",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://fxmarketapi.com/apitimeseries?api_key={{fxmarket_api_key}}&currency=EURUSD,GBPUSD,BTCUSD&start_date=2021-05-05&end_date=2021-05-06",
+					"protocol": "https",
+					"host": [
+						"fxmarketapi",
+						"com"
+					],
+					"path": [
+						"apitimeseries"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "{{fxmarket_api_key}}"
+						},
+						{
+							"key": "currency",
+							"value": "EURUSD,GBPUSD,BTCUSD"
+						},
+						{
+							"key": "start_date",
+							"value": "2021-05-05"
+						},
+						{
+							"key": "end_date",
+							"value": "2021-05-06"
+						}
+					]
+				},
+				"description": "https://fxmarketapi.com/documentation#timeseries"
+			},
+			"response": []
+		},
+		{
+			"name": "FXMarket Timeseries timespan",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://fxmarketapi.com/apitimeseries?api_key={{fxmarket_api_key}}&currency=EURUSD&start_date=2021-05-05-10:00&end_date=2021-05-06-11:00",
+					"protocol": "https",
+					"host": [
+						"fxmarketapi",
+						"com"
+					],
+					"path": [
+						"apitimeseries"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "{{fxmarket_api_key}}"
+						},
+						{
+							"key": "currency",
+							"value": "EURUSD"
+						},
+						{
+							"key": "start_date",
+							"value": "2021-05-05-10:00"
+						},
+						{
+							"key": "end_date",
+							"value": "2021-05-06-11:00"
+						}
+					]
+				},
+				"description": "https://fxmarketapi.com/documentation#timeseries"
+			},
+			"response": []
+		},
+		{
+			"name": "FXMarket Get currencies available",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://fxmarketapi.com/apicurrencies?api_key={{fxmarket_api_key}}",
+					"protocol": "https",
+					"host": [
+						"fxmarketapi",
+						"com"
+					],
+					"path": [
+						"apicurrencies"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "{{fxmarket_api_key}}"
+						}
+					]
+				},
+				"description": "https://fxmarketapi.com/documentation#available_currencies"
+			},
+			"response": []
+		},
+		{
+			"name": "CoronaTracker Daily New Cases and Deaths",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://api.coronatracker.com/v5/analytics/dailyNewStats",
+					"protocol": "http",
+					"host": [
+						"api",
+						"coronatracker",
+						"com"
+					],
+					"path": [
+						"v5",
+						"analytics",
+						"dailyNewStats"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "5",
+							"disabled": true
+						}
+					]
+				},
+				"description": "https://documenter.getpostman.com/view/11073859/Szmcbeho?version=latest"
+			},
+			"response": []
+		},
+		{
+			"name": "CoronaTracker Daily New Cases and Deaths between dates",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://api.coronatracker.com/v5/analytics/newcases/country?countryCode=DK&startDate=2021-05-20&endDate=2021-05-29",
+					"protocol": "http",
+					"host": [
+						"api",
+						"coronatracker",
+						"com"
+					],
+					"path": [
+						"v5",
+						"analytics",
+						"newcases",
+						"country"
+					],
+					"query": [
+						{
+							"key": "countryCode",
+							"value": "DK",
+							"description": "Required - String - Country code(s)"
+						},
+						{
+							"key": "startDate",
+							"value": "2021-05-20",
+							"description": "Required - Date - Start date\nDate format should be YYYY-MM-DD"
+						},
+						{
+							"key": "endDate",
+							"value": "2021-05-29",
+							"description": "Required - Date - End date\nDate format should be YYYY-MM-DD"
+						}
+					]
+				},
+				"description": "https://documenter.getpostman.com/view/11073859/Szmcbeho?version=latest"
+			},
+			"response": []
+		},
+		{
+			"name": "CoronaTracker Stats per country between dates",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://api.coronatracker.com/v5/analytics/trend/country?countryCode=DK&startDate=2021-05-20&endDate=2021-05-28",
+					"protocol": "http",
+					"host": [
+						"api",
+						"coronatracker",
+						"com"
+					],
+					"path": [
+						"v5",
+						"analytics",
+						"trend",
+						"country"
+					],
+					"query": [
+						{
+							"key": "countryCode",
+							"value": "DK",
+							"description": "Required - String - Country code(s)"
+						},
+						{
+							"key": "startDate",
+							"value": "2021-05-20",
+							"description": "Required - Date - Start date\nDate format should be YYYY-MM-DD"
+						},
+						{
+							"key": "endDate",
+							"value": "2021-05-28",
+							"description": "Required - Date - End date\nDate format should be YYYY-MM-DD"
+						}
+					]
+				},
+				"description": "https://documenter.getpostman.com/view/11073859/Szmcbeho?version=latest"
+			},
+			"response": []
+		},
+		{
+			"name": "CoronaTracker Global Stats",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://api.coronatracker.com/v3/stats/worldometer/global",
+					"protocol": "http",
+					"host": [
+						"api",
+						"coronatracker",
+						"com"
+					],
+					"path": [
+						"v3",
+						"stats",
+						"worldometer",
+						"global"
+					]
+				},
+				"description": "https://documenter.getpostman.com/view/11073859/Szmcbeho?version=latest"
+			},
+			"response": []
+		},
+		{
+			"name": "CoronaTracker Stats per country",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://api.coronatracker.com/v3/stats/worldometer/country?countryCode=DK",
+					"protocol": "http",
+					"host": [
+						"api",
+						"coronatracker",
+						"com"
+					],
+					"path": [
+						"v3",
+						"stats",
+						"worldometer",
+						"country"
+					],
+					"query": [
+						{
+							"key": "countryCode",
+							"value": "DK",
+							"description": "Optional - Optional countryCode to retrieve the stats for"
+						}
+					]
+				},
+				"description": "https://documenter.getpostman.com/view/11073859/Szmcbeho?version=latest"
+			},
+			"response": []
+		},
+		{
+			"name": "CoronaTracker Travel Alerts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://api.coronatracker.com/v1/travel-alert",
+					"protocol": "http",
+					"host": [
+						"api",
+						"coronatracker",
+						"com"
+					],
+					"path": [
+						"v1",
+						"travel-alert"
+					]
+				},
+				"description": "https://documenter.getpostman.com/view/11073859/Szmcbeho?version=latest"
+			},
+			"response": []
 		}
 	],
 	"event": [
@@ -232,14 +630,6 @@
 					""
 				]
 			}
-		}
-	],
-	"variable": [
-		{
-			"id": "05792d3d-b2b0-46c8-b103-5f18d64e207a",
-			"key": "nasa_api_key",
-			"value": "nzh8edKbqhAXDL0Qb0ynQeiYcwWX9xYSoECw6jhO",
-			"type": "string"
 		}
 	]
 }
