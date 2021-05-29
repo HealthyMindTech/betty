@@ -13,29 +13,56 @@ async function createOrUpdateTournament(tournamentId, idNumber) {
     return;
   }
 
+  const totalRounds = tournamentDetails.settings.total_rounds;
   let players, playerScores;
+  
   try {
-    tournamentPlayers = await chessApi.lookupTournamentRound(tournamentId, 0);
+    tournamentPlayers = await chessApi.lookupTournamentRound(tournamentId, totalRounds);
+    console.log(tournamentPlayers);
     players = tournamentPlayers.players.map(player => player.username);
     playerScores = tournamentPlayers.players.map(player => player.points);
   } catch (e) {
     console.log(e);
+    try {
+      tournamentPlayers = await chessApi.lookupTournamentRound(tournamentId, 1);
+      players = tournamentPlayers.players.map(player => player.username);
+      playerScores = tournamentPlayers.players.map(player => player.points);
+    } catch (e) {
+      console.log(e);
+      try {
+        tournamentPlayers = await chessApi.lookupTournamentRound(tournamentId, 0);
+        players = tournamentPlayers.players.map(player => player.username);
+        playerScores = tournamentPlayers.players.map(player => player.points);
+      } catch (e) {
+        console.log(e);
+      }
+    }
   }
 
-  if (players === null || players.length === 0) {
-    players = tournamentDetails.players.map(player => player.username);
+  if (players === null || players === undefined || players.length === 0) {
+    players = tournamentDetails.players.filter(
+      player => player.status != "withdrev" && player.status != "removed"
+    ).map(player => player.username);
     playerScores = players.map(_ => 0);
   }
-  console.log(players);
 
+  const status = tournamentDetails.status;
+  if ((players === null || players === undefined || players.length === 0) &&
+      status != "finished") {
+    return;
+  }
+  
+  const winners = tournamentDetails.players.filter(
+    player => player.status === "winner"
+  ).map(player => player.username);
+  
   const doc = firestore.collection(TOURNAMENT_COLLECTION).doc(tournamentId);
   
   const startTime = tournamentDetails.start_time;
   const endTime = tournamentDetails.end_time;
   let resultUrl = tournamentDetails.url;
-  resultUrl = resultUrl ? resultUrl.replace(/live\/([^\/]+)$/, "live/arena/$1") : resultUrl;
   const name = tournamentDetails.name;
-  const status = tournamentDetails.status;
+
 
   
   const tournamentObject = {
@@ -45,10 +72,11 @@ async function createOrUpdateTournament(tournamentId, idNumber) {
     status,
     players,
     playerScores,
-    resultUrl
+    resultUrl,
+    winners
   };
   if (idNumber) {
-    tournamentObject["liveUrl"] = `https://www.chess.com/live#r=${idNumber}`;
+    tournamentObject["liveUrl"] = `https://www.chess.com/live#t=${idNumber}`;
   }
   doc.set(tournamentObject, { merge: true });
 }
@@ -75,6 +103,7 @@ async function updateUnfinishedTournaments(ignoredIds) {
     if (ignoredDocs.has(doc.id)) {
       continue;
     }
+    console.log(`Looking at: ${doc.id}`);
     await createOrUpdateTournament(doc.id);
   }
 }

@@ -14,7 +14,9 @@ class TournamentService extends ChangeNotifier {
     return _instance!;
   }
 
-  TournamentService();
+  TournamentService() {
+    setup();
+  }
 
   Future<Map<String, Tournament>> lookupTournaments(List<String> tournamentIds) async {
     var futureTournaments = tournamentIds.map((id) async {
@@ -42,8 +44,10 @@ class TournamentService extends ChangeNotifier {
   Tournament? _registerTournament(DocumentSnapshot<Map<String, dynamic>> doc) {
     try {
       Tournament? tournament = Tournament.fromDoc(doc);
-      if (tournament == null)
+      print("Tournament: $tournament");
+      if (tournament == null) {
         return null;
+      }
       _cache[doc.id] = tournament;
       return tournament;
     } catch (e) {
@@ -52,7 +56,17 @@ class TournamentService extends ChangeNotifier {
     return null;
   }
 
-  void setup() async {
+  Map<String, Tournament> getActiveBets() {
+    Map<String, Tournament> tournaments = <String, Tournament>{};
+    _cache.forEach((_key, tournament) {
+      if (tournament.status != "finished") {
+        tournaments[tournament.id] = tournament;
+      }
+    });
+    return tournaments;
+  }
+
+  void setup() {
     firestore.collection("tournament").where(
         "status", whereIn: [
       "scheduled", "registration", "in_progress"

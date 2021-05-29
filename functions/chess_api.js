@@ -37,7 +37,7 @@ async function lookupTournamentRound(tournamentId, round) {
 }
 
 async function* getNewTournaments() {
-  const resp = await axios.get("https://www.chess.com/tournament/live/arena?&page=1");
+  const resp = await axios.get("https://www.chess.com/tournament/live?&page=1");
   const $ = cheerio.load(resp.data);
   const links = $("a.tournaments-live-name");
   for (var i = 0; i < links.length; i++) {

@@ -50,6 +50,8 @@ exports.makeBet = functions.runWith({
 exports.app = functions.runWith({
   timeoutSeconds: 300
 }).https.onRequest(app);
-exports.updateTournaments = functions.pubsub.schedule("every 1 minutes").onRun(updateTournaments);
+exports.updateTournaments = functions.runWith({
+  timeoutSeconds: 300
+}).pubsub.schedule("every 1 minutes").onRun(updateTournaments);
 
 

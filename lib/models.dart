@@ -28,6 +28,7 @@ class Tournament {
   final DateTime? startTime;
   final DateTime? endTime;
   final List<String>? players;
+  final List<String>? winners;
 
   const Tournament(
       {
@@ -38,6 +39,7 @@ class Tournament {
         this.resultUrl,
         this.startTime,
         this.endTime,
+        this.winners,
         this.players});
 
   static Tournament? fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
@@ -51,20 +53,23 @@ class Tournament {
     var resultUrl = data["resultUrl"];
     var status = data["status"];
     var startTimeMillis = data["startTime"];
-    var startTime = startTimeMillis != null ? DateTime.fromMillisecondsSinceEpoch(startTimeMillis) : null;
+    var startTime = startTimeMillis != null ? DateTime.fromMillisecondsSinceEpoch(startTimeMillis * 1000) : null;
 
     var endTimeMillis = data["endTime"];
-    var endTime = endTimeMillis != null ? DateTime.fromMillisecondsSinceEpoch(endTimeMillis) : null;
-    var players = data["players"];
+    var endTime = endTimeMillis != null ? DateTime.fromMillisecondsSinceEpoch(endTimeMillis * 1000) : null;
+    var players = (data["players"] as List<dynamic>?)?.whereType<String>().toList();
+    var winners = (data["winners"] as List<dynamic>?)?.whereType<String>().toList();
 
     return Tournament(
       id: id,
+      name: name,
       status: status as String,
       liveUrl: liveUrl,
       resultUrl: resultUrl,
       startTime: startTime,
       endTime: endTime,
-      players: players
+      players: players,
+      winners: winners
     );
   }
 }

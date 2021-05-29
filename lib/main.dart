@@ -7,6 +7,11 @@ import 'signin.dart';
 import 'home.dart';
 import 'user_provider.dart';
 import 'utils.dart';
+import 'models.dart';
+import 'tournament_service.dart';
+
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +20,6 @@ void main() async {
 }
 
 class BettingBee extends StatefulWidget {
-
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -25,7 +29,6 @@ class _MyAppState extends State<BettingBee> {
 
   @override
   Widget build(BuildContext context) {
-
     User? user = FirebaseAuth.instance.currentUser;
 
     return MultiProvider(
