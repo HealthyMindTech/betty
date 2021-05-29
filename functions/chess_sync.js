@@ -3,7 +3,7 @@ chessApi = require("./chess_api");
 
 TOURNAMENT_COLLECTION = "tournament";
 
-async function createOrUpdateTournament(tournamentId) {
+async function createOrUpdateTournament(tournamentId, idNumber) {
   firestore = admin.firestore();
   let tournamentDetails, tournamentPlayers = null;
   try {
@@ -29,21 +29,25 @@ async function createOrUpdateTournament(tournamentId) {
   
   const startTime = tournamentDetails.start_time;
   const endTime = tournamentDetails.end_time;
-  const url = tournamentDetails.url;
+  let resultUrl = tournamentDetails.url;
+  resultUrl = resultUrl ? resultUrl.replace(/live\/([^\/]+)$/, "live/arena/$1") : resultUrl;
   const name = tournamentDetails.name;
   const status = tournamentDetails.status;
+
   
   const tournamentObject = {
     startTime,
     endTime,
-    url,
     name,
     status,
     players,
-    playerScores
+    playerScores,
+    resultUrl
   };
-  
-  doc.set(tournamentObject);
+  if (idNumber) {
+    tournamentObject["liveUrl"] = `https://www.chess.com/live#r=${idNumber}`;
+  }
+  doc.set(tournamentObject, { merge: true });
 }
 
 async function registerNewTournaments() {
@@ -51,7 +55,7 @@ async function registerNewTournaments() {
   const res = [];
   for await (const tournament of chessApi.getUpcomingTournaments()) {
     const tournamentId = chessApi.getTournamentId(tournament);
-    await createOrUpdateTournament(tournamentId);
+    await createOrUpdateTournament(tournamentId, tournament.id);
     res.push(tournamentId);
   }
   return res;
@@ -64,7 +68,6 @@ async function updateUnfinishedTournaments(ignoredIds) {
   ]).get();
   const ignoredDocs = ignoredIds ? new Set(ignoredIds) : new Set();
   for (var doc of docs.docs) {
-    console.log(doc.id);
     if (ignoredDocs.has(doc.id)) {
       continue;
     }

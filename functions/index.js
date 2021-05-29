@@ -12,15 +12,21 @@ const app = express();
 
 // Automatically allow cross-origin requests
 app.use(cors({ origin: true }));
-app.get('/', async (req, res) => res.send(chessSync.scanTournaments()));
+app.get('/', async (req, res) => res.send());
 
-// Expose Express API as a single Cloud Function:
-exports.bets = functions.https.onRequest(app);
-
-        // // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+let isUpdatingNow = false;
+exports.bets = functions.pubsub.schedule("every 1 minutes").onRun(() => {
+  if (isUpdatingNow) {
+    console.log("Not running as is already running");
+    return;
+  }
+  console.log("Scheduling");
+  isUpdatingNow = true;
+  try {
+    chessSync.scanTournaments()
+  } catch (e) {
+    console.log(e);
+  }
+  isUpdatingNow = false;
+  return null;
+});
