@@ -1,12 +1,8 @@
 const ChessWebAPI = require('chess-web-api');
 const cheerio = require('cheerio');
 const axios = require('axios');
-admin = require('firebase-admin');
 
 const chessAPI = new ChessWebAPI({queue: true});
-
-admin.initializeApp();
-
 
 async function getPlayer(playerName)  {
   return await chessAPI.getPlayer(playerName);
@@ -35,8 +31,8 @@ async function lookupTournament(tournamentId) {
   return tournament.body;
 }
 
-async function lookupTournamentRounds(tournamentId, round) {
-  const tournamentRounds = await chessAPI.getTournamentRoundGroup(tournamentId, round);
+async function lookupTournamentRound(tournamentId, round) {
+  const tournamentRounds = await chessAPI.getTournamentRound(tournamentId, round);
   return tournamentRounds.body;
 }
 
@@ -90,24 +86,14 @@ async function* getUpcomingTournaments() {
 }
 
 function getTournamentId(tournamentObj) {
-  console.log(tournamentObj);
-  return `${tournamentObj.name.replaceAll(/\s/g, "-").replaceAll(/[^\w\d_-]/g, "")}-${tournamentObj.id}`;
+  const res = `${tournamentObj.name.replaceAll(/\s/g, "-").replaceAll(/[^\w\d_-]/g, "")}-${tournamentObj.id}`;
+  return res.toLowerCase();
 }
 
-async function getTournaments() {
-  for await(const value of getUpcomingTournaments()) {
-    console.log(value);
-    const tournamentId = getTournamentId(value);
-    const res = await lookupTournament(tournamentId);
-    console.log(res);
-    try {
-      const t = await lookupTournamentRounds(value, 1);
-      console.log(t);
-      return;
-    } catch (e) {}
-    
-  }
-}
+exports.getTournamentId = getTournamentId;
+exports.getUpcomingTournaments = getUpcomingTournaments;
+exports.lookupTournament = lookupTournament;
+exports.lookupTournamentRound = lookupTournamentRound;
 
 //lookupTournament('10-bullet-1186229').then(console.log)
 //lookupTournamentRounds('10-bullet-1186229', 1).then(console.log)
@@ -115,3 +101,19 @@ async function getTournaments() {
 
 
 
+/* 
+ * async function getTournaments() {
+ *   for await(const value of getUpcomingTournaments()) {
+ *     console.log(value);
+ *     const tournamentId = getTournamentId(value);
+ *     const res = await lookupTournament(tournamentId);
+ *     console.log(res);
+ *     try {
+ *       const t = await lookupTournamentRounds(value, 1);
+ *       console.log(t);
+ *       return;
+ *     } catch (e) {}
+ *     
+ *   }
+ * }
+ *  */
