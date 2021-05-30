@@ -14,6 +14,7 @@ const app = express();
 // Automatically allow cross-origin requests
 app.use(cors({ origin: true }));
 app.post('/update', async (req, res) => res.send(await updateTournaments()));
+app.post('/cleanBets', async (req, res) => res.send(await bets.cleanBets()));
 
 let isUpdatingNow = false;
 async function updateTournaments() {
@@ -48,6 +49,9 @@ exports.makeBet = functions.runWith({
   return await bets.makeBet(tournamentId, player, userId, value);
 });
 
+exports.cleanBets = functions.runWith({
+  timeoutSeconds: 300
+}).pubsub.schedule("every 1 minute").onRun(bets.cleanBets);
 exports.app = functions.runWith({
   timeoutSeconds: 300
 }).https.onRequest(app);

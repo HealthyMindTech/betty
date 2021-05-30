@@ -48,7 +48,7 @@ class _MyAppState extends State<Betty> {
               '/forgotpass': (context) => ForgotPasswordScreen(),
               '/signinpass': (context) => EmailSignin(),
               '/login': (context) => LoginModal(),
-              '/home': (context) => user == null ? LoginModal() : HomeScreen(),
+              '/home': (context) => HomeScreen()
             }
         )
     );

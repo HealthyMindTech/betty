@@ -1,22 +1,56 @@
+import 'package:bettingbee/tournament_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Bet {
-  final String betText;
-  final String betA;
-  final String betB;
-  final String tournamentId;
-  final String tournamentUrl;
+  String id;
+  String userId;
+  String player;
+  String tournamentId;
+  bool visible;
+  num odds;
+  String status;
+  num value;
+  Tournament tournament;
 
-  final DateTime releaseTime;
+  Bet({
+    required this.id,
+    required this.userId,
+    required this.player,
+    required this.tournamentId,
+    required this.visible,
+    required this.odds,
+    required this.status,
+    required this.value,
+    required this.tournament
+  });
 
-  const Bet(
-      {required this.betText,
-      required this.betA,
-      required this.betB,
-      required this.releaseTime,
-      required this.tournamentId,
-      required this.tournamentUrl,
-      });
+  static Future<Bet?> fromDocument(DocumentSnapshot<Map<String, dynamic>> doc) async {
+    var id = doc.id;
+    var tournamentDoc = doc.reference.parent.parent!;
+    var tournamentMap = await TournamentService.instance.lookupTournaments([tournamentDoc.id]);
+    var tournament = tournamentMap[tournamentDoc.id]!;
+    var data = doc.data();
+    if (data == null) {
+      return null;
+    }
+    var visible = data["visible"] ?? true;
+    var odds = data["odds"] ?? 3;
+    var status = data["status"] ?? "undetermined";
+    var value = data["value"] ?? 5;
+    var player = data["player"]!;
+    var userId = data["userId"]!;
+    return Bet(
+        userId: userId,
+        player: player,
+        tournament: tournament,
+        tournamentId: tournament.id,
+        visible: visible,
+        odds: odds,
+        status: status,
+        value: value,
+        id: id
+    );
+  }
 }
 
 class Tournament {

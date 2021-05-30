@@ -44,7 +44,6 @@ class TournamentService extends ChangeNotifier {
   Tournament? _registerTournament(DocumentSnapshot<Map<String, dynamic>> doc) {
     try {
       Tournament? tournament = Tournament.fromDoc(doc);
-      print("Tournament: $tournament");
       if (tournament == null) {
         return null;
       }

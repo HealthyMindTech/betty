@@ -46,7 +46,7 @@ class UserService {
         displayName: getRandDisplayName(),
         balance: defaultBalance,
         createdAt: DateTime.now(),
-        );
+    );
     Map<String, dynamic> userData = modelUser.toMap();
     await userDoc.set(userData);
     return modelUser;
@@ -69,5 +69,10 @@ class UserService {
     Random().nextInt(randInitialDisplayNames.length)] +
         (Random().nextInt(8999) + 1000).toString());
   }
+
+  Stream<DocumentSnapshot<Object?>> getUserStream(String id) {
+    return users.doc(id).snapshots();
+  }
+
 
 }
