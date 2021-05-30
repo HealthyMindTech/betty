@@ -60,6 +60,9 @@ flutter:
   assets:
     - assets/betty_logo.png
     - assets/betty_logo_name.png
+    - assets/cat_lost.gif
+    - assets/cat_waiting.gif
+    - assets/cat_won.gif
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -161,12 +161,15 @@ class _HomeScreenState extends State<_HomeScreen> {
             Expanded(child: BettingColumn()),
             Expanded(child: ActionColumn())
           ]),
-          Positioned(
-              bottom: 20,
-              left: 20,
-              child: Text(
-                  "2021 \u00a9 Betty | Terms of Service | Privacy Policy | About"))
-        ]));
+        ]),
+      bottomNavigationBar: new Container(
+        alignment: Alignment.center,
+        height: 40.0,
+        child: Text("2021 \u00a9 Betty | Terms of Service | Privacy Policy | About",
+            style: TextStyle(color: Colors.grey)
+        ),
+      )
+    );
   }
 
   Future<void> _signOut(BuildContext context) async {
@@ -292,7 +295,35 @@ class _PlacedBetListState extends State<PlacedBetList> {
                           var winners = bet.tournament.winners ?? [];
                           return AlertDialog(
                               title: Text(betText),
-                              content: Text("You bet: ${bet.player}\n\nOutcome: ${winners.join(", ")}"),
+                              content:
+                              SingleChildScrollView(
+                                child: ListBody(
+                                  children: <Widget>[
+                                    Text("You bet: ${bet.player}"), //\n\nOutcome: ${winners.join(", ")}"),
+                                    SizedBox(height: 20),
+                                    Text(bet.status == "undetermined" ?
+                                    "Status: Bet is still on. Hang in there..."
+                                        : "Status: Bet has ended"),
+                                    SizedBox(height: 20),
+                                    bet.status == "undetermined"
+                                        ? Image.asset(
+                                      "assets/cat_waiting.gif",
+                                      height: 125.0,
+                                      width: 125.0,
+                                    )
+                                        : bet.status == "won" ? Image.asset(
+                                      "assets/cat_won.gif",
+                                      height: 125.0,
+                                      width: 125.0,
+                                    ) :
+                                    Image.asset(
+                                      "assets/cat_lost.gif",
+                                      height: 125.0,
+                                      width: 125.0,
+                                    )
+                                  ],
+                                ),
+                              ),
                               actions: <Widget>[
                                 TextButton(
                                   onPressed: () => Navigator.pop(context, 'OK'),
@@ -309,9 +340,11 @@ class _PlacedBetListState extends State<PlacedBetList> {
                 Padding(
                     padding: EdgeInsets.only(top: 10),
                     child: Text(bet.status == "undetermined" ?
-                        "Bet is still on"
-                        : "Bet has ended"))
+                        "Bet is still on. Tournament starts: " + friendlyDateFormat
+                            .format(bet.tournament.startTime ?? DateTime.now())
+                        : "Bet has ended")),
               ]),
+
               Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                 GestureDetector(
                     child: Text("View Details",
