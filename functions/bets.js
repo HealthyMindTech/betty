@@ -52,7 +52,7 @@ async function cleanBets() {
     const tournament = await tournamentDoc.get();
 
     const tournamentData = tournament.data();
-    if (tournamentData.status === "finished") {
+    if (tournamentData && tournamentData.status === "finished") {
       const player = bet.get("player");
       const userId = bet.get("userId");
       const winners = tournamentData["winners"] || [];
