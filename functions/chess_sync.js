@@ -142,7 +142,7 @@ async function updateUnfinishedTournaments(ignoredIds) {
 
 async function scanTournaments() {
   const ignoreIds = await registerNewTournaments();
-  await updateUnfinishedTournaments([]);
+  await updateUnfinishedTournaments(ignoreIds);
 }
 
 exports.scanTournaments = scanTournaments;
