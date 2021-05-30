@@ -18,30 +18,37 @@ async function createOrUpdateTournament(tournamentId, idNumber) {
   
   try {
     tournamentPlayers = await chessApi.lookupTournamentRound(tournamentId, totalRounds);
-    console.log(tournamentPlayers);
     players = tournamentPlayers.players.map(player => player.username);
     playerScores = tournamentPlayers.players.map(player => player.points);
   } catch (e) {
     console.log(e);
+  }
+  console.log(players);
+  if (players === null || players === undefined || players.length === 0) {
     try {
       tournamentPlayers = await chessApi.lookupTournamentRound(tournamentId, 1);
       players = tournamentPlayers.players.map(player => player.username);
       playerScores = tournamentPlayers.players.map(player => player.points);
     } catch (e) {
       console.log(e);
-      try {
-        tournamentPlayers = await chessApi.lookupTournamentRound(tournamentId, 0);
-        players = tournamentPlayers.players.map(player => player.username);
-        playerScores = tournamentPlayers.players.map(player => player.points);
-      } catch (e) {
-        console.log(e);
-      }
     }
   }
+  console.log(players);
+
+  if (players === null || players === undefined || players.length === 0) {
+    try {
+      tournamentPlayers = await chessApi.lookupTournamentRound(tournamentId, 0);
+      players = tournamentPlayers.players.map(player => player.username);
+      playerScores = tournamentPlayers.players.map(player => player.points);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  console.log(players);
 
   if (players === null || players === undefined || players.length === 0) {
     players = tournamentDetails.players.filter(
-      player => player.status != "withdrev" && player.status != "removed"
+      player => player.status != "withdrew" && player.status != "removed"
     ).map(player => player.username);
     playerScores = players.map(_ => 0);
   }
@@ -62,8 +69,6 @@ async function createOrUpdateTournament(tournamentId, idNumber) {
   const endTime = tournamentDetails.end_time;
   let resultUrl = tournamentDetails.url;
   const name = tournamentDetails.name;
-
-
   
   const tournamentObject = {
     startTime,
@@ -76,7 +81,7 @@ async function createOrUpdateTournament(tournamentId, idNumber) {
     winners
   };
   if (idNumber) {
-    tournamentObject["liveUrl"] = `https://www.chess.com/live#t=${idNumber}`;
+    tournamentObject["liveUrl"] = `https://www.chess.com/live#r=${idNumber}`;
   }
   doc.set(tournamentObject, { merge: true });
 }

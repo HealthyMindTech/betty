@@ -361,7 +361,6 @@ class BetList extends StatefulWidget {
 }
 
 class _BetListState extends State<BetList> {
-  GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
   Map<String, int> tournamentHash = <String, int>{};
   List<Tournament> tournaments = <Tournament>[];
 
@@ -377,7 +376,7 @@ class _BetListState extends State<BetList> {
   }
 
   void addFirstList(Map<String, Tournament> allTournaments) {
-    var tournaments = allTournaments.values.toList();
+    tournaments = allTournaments.values.toList();
     tournaments.sort((a, b) {
       var startTimeA = a.startTime;
       var startTimeB = b.startTime;
@@ -395,7 +394,6 @@ class _BetListState extends State<BetList> {
     tournamentHash = <String, int>{};
     for (var i = 0; i < tournaments.length; i++) {
       tournamentHash[tournaments[i].id] = i;
-      listKey.currentState?.insertItem(i);
     }
   }
 
@@ -409,25 +407,21 @@ class _BetListState extends State<BetList> {
     setState(() {
       Map<String, Tournament> newTournaments =
           widget.tournamentService.getActiveBets();
-      if (newTournaments.isEmpty) {
+      if (tournaments.isEmpty) {
         addFirstList(newTournaments);
         return;
       }
       newTournaments.keys.forEach((k) {
         if (!tournamentHash.containsKey(k)) {
           tournaments.add(newTournaments[k]!);
-          listKey.currentState?.insertItem(tournaments.length - 1);
           tournamentHash[k] = tournaments.length - 1;
         }
       });
       tournamentHash.keys.toList().forEach((k) {
         if (!newTournaments.containsKey(k)) {
           var idx = tournamentHash[k]!;
-          var tournament = tournaments[idx];
           tournaments.removeAt(idx);
           tournamentHash.remove(k);
-          var widget = getBetWidget(context, tournament, idx);
-          listKey.currentState?.removeItem(idx, (context, animation) => widget);
         }
       });
     });
@@ -441,29 +435,19 @@ class _BetListState extends State<BetList> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedList(
-        key: listKey,
-        initialItemCount: tournaments.length,
-        itemBuilder: (context, idx, animation) {
-          return slideIt(context, idx, animation);
-        });
+    if (tournaments.isEmpty) {
+      return Container();
+    }
+    return SingleChildScrollView(
+      child: Column(
+        children: tournaments.map((t) =>
+            Padding(
+                padding: EdgeInsets.all(10),
+                child: getBetWidget(context, t))).toList()
+    ));
   }
 
-  Widget slideIt(BuildContext context, int index, animation) {
-    return SlideTransition(
-      position: Tween<Offset>(
-        begin: const Offset(-1, 0),
-        end: Offset(0, 0),
-      ).animate(animation),
-      child: Padding(
-          padding: EdgeInsets.all(10),
-          child: getBetWidget(
-              context, tournaments[index], index) //BetWidget(bet: bets[index])
-          ),
-    );
-  }
-
-  Widget getBetWidget(BuildContext context, Tournament tournament, int index) {
+  Widget getBetWidget(BuildContext context, Tournament tournament) {
     return Card(
         child: Padding(
             padding: const EdgeInsets.all(10),

@@ -5,16 +5,17 @@ const { TOURNAMENT_COLLECTION, USER_COLLECTION, BET_COLLECTION } = require('./co
 
 async function makeBet(tournamentId, player, userId, value) {
   const firestore = admin.firestore();
+  console.log(tournamentId);
   const tournament = await firestore.collection(TOURNAMENT_COLLECTION).doc(tournamentId).get();
 
-  if (!tournament.exists()) {
+  if (!tournament.exists) {
     throw new functions.https.HttpsError('failed-precondition', 'Tournament does not exist');
   }
 
-  const bet = tournament.subcollection(BET_COLLECTION).doc(`${userId}-${player}`);
+  const bet = tournament.collection(BET_COLLECTION).doc(`${userId}-${player}`);
   const doc = bet.get();
 
-  if (doc.exists()) {
+  if (doc.exists) {
     throw new functions.https.HttpsError('failed-precondition', 'You have already bet for this fellow');
   }
 
@@ -28,14 +29,12 @@ async function makeBet(tournamentId, player, userId, value) {
   }
 
   const userRef = firestore.collection(USER_COLLECTION).doc(userId);
-
-  await userRef.update("balance", firestore.FieldValue.increment(-value));
+  console.log(userId);
+  await userRef.update({balance: firestore.FieldValue.increment(-value)});
   await bet.set(betObject);
 
   return betObject;
 }
   
   
-  
-  
-  
+exports.makeBet = makeBet;

@@ -34,17 +34,18 @@ async function updateTournaments() {
 
 exports.makeBet = functions.runWith({
   timeoutSeconds: 300
-}).https.onCall((data, context) => {
-  const tournamentId = data.tournamentId;
-  const player = data.player;
+}).https.onCall(async (data, context) => {
+  console.log(data);
+  const tournamentId = data[0]
+  const player = data[1];
   const userId = context.auth.uid;
-  const value = data.value || 5.0;
+  const value = data[2] || 5.0;
 
   if (!userId) {
     throw new functions.https.HttpsError('failed-precondition', 'You must be logged in to run this');
   }
   
-  return bets.makeBet(tournamentId, player, userId, value);
+  return await bets.makeBet(tournamentId, player, userId, value);
 });
 
 exports.app = functions.runWith({

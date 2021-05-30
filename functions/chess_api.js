@@ -73,7 +73,7 @@ function currentTimezoneOffset() {
 }
 
 async function* getUpcomingTournaments() {
-  const resp = await axios.get("https://www.chess.com/tournament/upcoming/arena?&page=1");
+  const resp = await axios.get("https://www.chess.com/tournament/upcoming/swiss?&page=1");
   const $ = cheerio.load(resp.data);
   const rows = $("tr")
   

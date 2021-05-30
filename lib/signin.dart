@@ -17,7 +17,7 @@ class LoginModal extends StatelessWidget {
   LoginModal({Function(BuildContext)? onLogin})
       : onLogin = onLogin ??
       ((BuildContext context) =>
-          Navigator.of(context).popAndPushNamed("/home"));
+          Navigator.of(context).pushNamed("/home"));
 
   @override
   Widget build(BuildContext context) {
