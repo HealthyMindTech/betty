@@ -165,10 +165,8 @@ class LoginModal extends StatelessWidget {
       content: Text(message),
     ));
 
-    Navigator.of(context).pop();
-    await onLogin(context);
+    onLogin(context);
   }
-
 }
 
 
