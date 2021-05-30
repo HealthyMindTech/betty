@@ -10,6 +10,15 @@ async function createOrUpdateTournament(tournamentId, idNumber) {
     tournamentDetails = await chessApi.lookupTournament(tournamentId);
   } catch (e) {
     console.log(e);
+    console.log("Deleting");
+    if (e.statusCode === 404) {
+      const doc = firestore.collection(TOURNAMENT_COLLECTION).doc(tournamentId);
+      try { 
+        await doc.delete();
+      } catch (e) {
+        console.log(e);
+      }
+    }
     return;
   }
 
@@ -23,7 +32,7 @@ async function createOrUpdateTournament(tournamentId, idNumber) {
   } catch (e) {
     console.log(e);
   }
-  console.log(players);
+
   if (players === null || players === undefined || players.length === 0) {
     try {
       tournamentPlayers = await chessApi.lookupTournamentRound(tournamentId, 1);
@@ -33,7 +42,6 @@ async function createOrUpdateTournament(tournamentId, idNumber) {
       console.log(e);
     }
   }
-  console.log(players);
 
   if (players === null || players === undefined || players.length === 0) {
     try {
@@ -44,7 +52,6 @@ async function createOrUpdateTournament(tournamentId, idNumber) {
       console.log(e);
     }
   }
-  console.log(players);
 
   if (players === null || players === undefined || players.length === 0) {
     players = tournamentDetails.players.filter(
@@ -54,8 +61,15 @@ async function createOrUpdateTournament(tournamentId, idNumber) {
   }
 
   const status = tournamentDetails.status;
-  if ((players === null || players === undefined || players.length === 0) &&
+  if ((players === null || players === undefined || players.length <= 1) &&
       status != "finished") {
+    console.log("Deleting one man tournament");
+    const doc = firestore.collection(TOURNAMENT_COLLECTION).doc(tournamentId);
+    try { 
+      await doc.delete();
+    } catch (e) {
+      console.log(e);
+    }
     return;
   }
   
@@ -69,7 +83,20 @@ async function createOrUpdateTournament(tournamentId, idNumber) {
   const endTime = tournamentDetails.end_time;
   let resultUrl = tournamentDetails.url;
   const name = tournamentDetails.name;
-  
+
+  if (status === 'registration' && startTime * 1000 > Date.now() && (
+    players === null || players === undefined || players.length <= 1)
+  ) {
+    console.log("Looks dead... deleting");
+    const doc = firestore.collection(TOURNAMENT_COLLECTION).doc(tournamentId);
+    try { 
+      await doc.delete();
+    } catch (e) {
+      console.log(e);
+    }
+    return;
+  }
+
   const tournamentObject = {
     startTime,
     endTime,
@@ -81,7 +108,7 @@ async function createOrUpdateTournament(tournamentId, idNumber) {
     winners
   };
   if (idNumber) {
-    tournamentObject["liveUrl"] = `https://www.chess.com/live#r=${idNumber}`;
+    tournamentObject["liveUrl"] = `https://www.chess.com/live#t=${idNumber}`;
   }
   doc.set(tournamentObject, { merge: true });
 }
@@ -115,7 +142,7 @@ async function updateUnfinishedTournaments(ignoredIds) {
 
 async function scanTournaments() {
   const ignoreIds = await registerNewTournaments();
-  await updateUnfinishedTournaments(ignoreIds);
+  await updateUnfinishedTournaments([]);
 }
 
 exports.scanTournaments = scanTournaments;
