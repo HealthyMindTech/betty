@@ -34,7 +34,7 @@ class UserService {
     DocumentSnapshot userDocSnapshot = await userDoc.get();
 
     if (userDocSnapshot.exists) {
-      var data = userDocSnapshot.data() as Map<String, dynamic>;
+      var data = userDocSnapshot.data() as Map<String, dynamic>?;
       if (data != null) {
         ModelUser user = ModelUser.fromMap(data);
         return user;
@@ -56,7 +56,7 @@ class UserService {
     DocumentReference userDoc = users.doc(userid);
     DocumentSnapshot userDocSnapshot = await userDoc.get();
     if (userDocSnapshot.exists) {
-      var data = userDocSnapshot.data() as Map<String, dynamic>;
+      var data = userDocSnapshot.data() as Map<String, dynamic>?;
       if (data != null) {
         return ModelUser.fromMap(data);
       }

@@ -5,28 +5,26 @@ import 'package:flutter/material.dart';
 import 'models.dart';
 import 'user_service.dart';
 
-class UserProvider extends ChangeNotifier {
+class UserProvider extends ValueNotifier<ModelUser?> {
   UserService _userService = UserService.get();
-  ModelUser? user;
+
+  UserProvider(): super(null);
 
   Future<ModelUser> getOrCreateUser(User user) async {
     ModelUser u = await _userService.getOrCreateUser(user);
-    this.user = u;
+    value = u;
     return u;
   }
 
   void updateUser(ModelUser user) {
-    this.user = user;
-    notifyListeners();
+    value = user;
   }
 
   void signOutUser() {
-    ModelUser? user = this.user;
-    this.user = null;
-    notifyListeners();
+    value = null;
   }
 
   ModelUser? getUser() {
-    return user;
+    return value;
   }
 }

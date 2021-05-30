@@ -7,24 +7,19 @@ import 'signin.dart';
 import 'home.dart';
 import 'user_provider.dart';
 import 'utils.dart';
-import 'models.dart';
-import 'tournament_service.dart';
-
-import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   FirebaseApp _ = await Firebase.initializeApp();
-  runApp(BettingBee());
+  runApp(Betty());
 }
 
-class BettingBee extends StatefulWidget {
+class Betty extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<BettingBee> {
+class _MyAppState extends State<Betty> {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
@@ -34,6 +29,7 @@ class _MyAppState extends State<BettingBee> {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider<UserProvider>(create: (context) {
+            User? user = FirebaseAuth.instance.currentUser;
             UserProvider provider = UserProvider();
             if (user != null) {
               provider.getOrCreateUser(user);
