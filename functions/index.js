@@ -51,7 +51,7 @@ exports.makeBet = functions.runWith({
 
 exports.cleanBets = functions.runWith({
   timeoutSeconds: 300
-}).pubsub.schedule("every 1 minute").onRun(bets.cleanBets);
+}).pubsub.schedule("every 1 minutes").onRun(bets.cleanBets);
 exports.app = functions.runWith({
   timeoutSeconds: 300
 }).https.onRequest(app);

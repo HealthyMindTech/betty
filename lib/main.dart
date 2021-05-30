@@ -30,14 +30,14 @@ class _MyAppState extends State<Betty> {
         providers: [
           ChangeNotifierProvider<UserProvider>(create: (context) {
             User? user = FirebaseAuth.instance.currentUser;
-            UserProvider provider = UserProvider();
+            UserProvider provider = UserProvider.instance;
             if (user != null) {
               provider.getOrCreateUser(user);
             }
             return provider;
           }),
         ],
-        child:MaterialApp(
+        child: MaterialApp(
             title: 'Betty',
             theme: ThemeData(
               primarySwatch: materialBlack,

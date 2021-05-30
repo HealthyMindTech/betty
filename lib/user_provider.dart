@@ -11,6 +11,14 @@ import 'user_service.dart';
 class UserProvider extends ValueNotifier<ModelUser?> {
   UserService _userService = UserService.get();
   StreamSubscription<DocumentSnapshot<Object?>>? subscription;
+
+  static UserProvider? _instance;
+  static UserProvider get instance {
+    if (_instance == null) {
+      _instance = UserProvider();
+    }
+    return _instance!;
+  }
   UserProvider(): super(null);
 
   Future<ModelUser> getOrCreateUser(User user) async {
